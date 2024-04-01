@@ -3,6 +3,7 @@ package mk.ukim.finki.uiktp.bookeshop.web;
 import mk.ukim.finki.uiktp.bookeshop.model.Author;
 import mk.ukim.finki.uiktp.bookeshop.service.AuthorService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,11 +18,13 @@ public class AuthorRestController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<Author> findAll() {
         return this.authorService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Author> findById(@PathVariable Long id) {
         return this.authorService.findById(id)
                 .map(author -> ResponseEntity.ok().body(author))
@@ -29,6 +32,7 @@ public class AuthorRestController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Author> create(@RequestParam String name,
                                          @RequestParam String surname,
                                          @RequestParam String birthYear) {
@@ -38,6 +42,7 @@ public class AuthorRestController {
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Author> update(@PathVariable Long id,
                                          @RequestParam String name,
                                          @RequestParam String surname,
@@ -48,6 +53,7 @@ public class AuthorRestController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity deleteById(@PathVariable Long id) {
         this.authorService.delete(id);
         if (this.authorService.findById(id).isEmpty())

@@ -4,6 +4,7 @@ import mk.ukim.finki.uiktp.bookeshop.model.Book;
 import mk.ukim.finki.uiktp.bookeshop.model.enumeration.Genre;
 import mk.ukim.finki.uiktp.bookeshop.service.BookService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +19,13 @@ public class BookRestController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<Book> findAll() {
         return this.bookService.findAll();
     }
 
     @GetMapping("/isbn/{isbn}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Book> findBookByISBN(@PathVariable String isbn) {
         return this.bookService.findBookByISBN(isbn)
                 .map(book -> ResponseEntity.ok().body(book))
@@ -30,16 +33,19 @@ public class BookRestController {
     }
 
     @GetMapping("/genre/{genre}")
+    @PreAuthorize("isAuthenticated()")
     public List<Book> findBooksByGenre(@PathVariable Genre genre) {
         return this.bookService.findBooksByGenre(genre);
     }
 
     @GetMapping("/author/{authorId}")
+    @PreAuthorize("isAuthenticated()")
     public List<Book> findBooksByAuthor(@PathVariable Long authorId) {
         return this.bookService.findBooksByAuthor(authorId);
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> create(@RequestParam String isbn,
                                        @RequestParam String title,
                                        @RequestParam String publicationHouse,
@@ -54,6 +60,7 @@ public class BookRestController {
     }
 
     @PutMapping("/edit/{isbn}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> update(@PathVariable String isbn,
                                        @RequestParam String title,
                                        @RequestParam String publicationHouse,
@@ -68,6 +75,7 @@ public class BookRestController {
     }
 
     @DeleteMapping("/delete/{isbn}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity deleteBookByIsbn(@PathVariable String isbn) {
         this.bookService.deleteBookByIsbn(isbn);
         if (this.bookService.findBookByISBN(isbn).isEmpty())
