@@ -25,7 +25,7 @@ public class Book {
     @Lob
     private byte[] imageData;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Author> authors;
 
     public Book(){

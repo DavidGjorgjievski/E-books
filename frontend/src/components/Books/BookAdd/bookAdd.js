@@ -9,16 +9,16 @@ const BookAdd = (props) => {
         price: 0,
         publicationHouse: 0,
         publicationYear: 0,
-        author: 1,
+        author: 0,
         imageData: 0,
-        genre: 7,
+        genre: 0,
 
     })
 
     const handleChange = (e) => {
         updateFormData({
             ...formData,
-            [e.target.title]: e.target.value.trim()
+            [e.target.name]: e.target.value.trim()
         })
     }
 
@@ -29,9 +29,10 @@ const BookAdd = (props) => {
         const genre = formData.genre;
         const publicationHouse = formData.publicationHouse;
         const publicationYear = formData.publicationYear;
+        const imageData = formData.imageData;
         const author = formData.author;
 
-        props.onAddBook(name, price, genre, publicationHouse,publicationYear,author);
+        props.onAddBook(name, price, genre, publicationHouse,publicationYear,author,imageData);
         history.push("/books");
     }
 
@@ -73,7 +74,7 @@ const BookAdd = (props) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="Publication House">Publication House</label>
+                        <label htmlFor="publicationHouse">Publication House</label>
                         <input type="text"
                                className="form-control"
                                id="publicationHouse"
@@ -84,7 +85,7 @@ const BookAdd = (props) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="Publication Year">Publication Year</label>
+                        <label htmlFor="publicationYear">Publication Year</label>
                         <input type="text"
                                className="form-control"
                                id="publicationYear"
@@ -95,7 +96,7 @@ const BookAdd = (props) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Manufacturer</label>
+                        <label>Author</label>
                         <select name="author" className="form-control" onChange={handleChange}>
                             {props.authors.map((term) =>
                                 <option value={term.id}>{term.name}</option>

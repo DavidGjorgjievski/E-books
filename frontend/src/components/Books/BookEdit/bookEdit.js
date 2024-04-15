@@ -9,15 +9,15 @@ const BookEdit = (props) => {
         price: 0,
         publicationHouse: 0,
         publicationYear: 0,
-        author: 1,
+        author: 0,
         imageData: 0,
-        genre: 7
+        genre: 0
     })
 
     const handleChange = (e) => {
         updateFormData({
             ...formData,
-            [e.target.title]: e.target.value.trim()
+            [e.target.name]: e.target.value.trim()
         })
     }
 
@@ -45,7 +45,7 @@ const BookEdit = (props) => {
                                className="form-control"
                                id="title"
                                name="title"
-                               placeholder={props.books.name}
+                               placeholder={props.books.title}
                                onChange={handleChange}
                         />
                     </div>

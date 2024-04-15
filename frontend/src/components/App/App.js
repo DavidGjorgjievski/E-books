@@ -8,7 +8,6 @@ import Header from '../Header/header';
 import BookAdd from '../Books/BookAdd/bookAdd';
 import EShopService from "../../repository/eshopRepository";
 import BookEdit from "../Books/BookEdit/bookEdit";
-import Login from "../Auth/login";
 
 class App extends Component {
 
@@ -42,7 +41,7 @@ class App extends Component {
                             <BookEdit shoppingCart={this.state.shoppingCart}
                                          authors={this.state.author}
                                          onEditBook={this.editBook}
-                                         product={this.state.selectedBook}/>}/>
+                                         book={this.state.selectedBook}/>}/>
                         <Route path={"/books"} exact render={() =>
                             <Books books={this.state.books}
                                       onDelete={this.deleteBook}
@@ -55,15 +54,6 @@ class App extends Component {
         );
     }
 
-    componentDidMount() {
-        this.fetchData()
-    }
-
-    fetchData = () => {
-        this.loadAuthors();
-        this.loadBooks();
-        this.loadShoppingCart();
-    }
 
     loadAuthors = () => {
         EShopService.fetchAuthors()
@@ -120,6 +110,15 @@ class App extends Component {
             .then(() => {
                 this.loadBooks();
             });
+    }
+    componentDidMount() {
+        this.fetchData()
+    }
+
+    fetchData = () => {
+        this.loadAuthors();
+        this.loadBooks();
+        this.loadShoppingCart();
     }
 }
 export default App;

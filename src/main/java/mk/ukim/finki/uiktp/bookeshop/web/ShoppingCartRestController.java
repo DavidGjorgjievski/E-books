@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/shopping-cart")
 public class ShoppingCartRestController {
     private final ShoppingCartService shoppingCartService;
 
-    public ShoppingCartRestController(ShoppingCartService shoppingCartService) {
+     public ShoppingCartRestController(ShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
     }
 
@@ -29,7 +29,7 @@ public class ShoppingCartRestController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ShoppingCart> findById(@PathVariable Long id) {
+    public  ResponseEntity<ShoppingCart> findById(@PathVariable Long id) {
         return this.shoppingCartService.findById(id)
                 .map(shoppingCart -> ResponseEntity.ok().body(shoppingCart))
                 .orElseGet(() -> ResponseEntity.notFound().build());
