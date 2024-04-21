@@ -39,6 +39,10 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findBooksByGenre(genre);
     }
 
+    public List<Book> findBooksByPublicationYear(String year){
+        return bookRepository.findBooksByPublicationYear(year);
+    }
+
     @Override
     public List<Book> findBooksByAuthor(Long authorId) {
         return bookRepository.findBooksByAuthorId(authorId);

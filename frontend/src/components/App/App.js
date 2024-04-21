@@ -8,6 +8,7 @@ import Header from '../Header/header';
 import BookAdd from '../Books/BookAdd/bookAdd';
 import EShopService from "../../repository/eshopRepository";
 import BookEdit from "../Books/BookEdit/bookEdit";
+import Select from 'react-select';
 
 class App extends Component {
 
@@ -18,15 +19,18 @@ class App extends Component {
             books: [],
             shoppingCart: [],
             selectedBook: {}
+
         }
     }
 
     render() {
+
         return (
             <Router>
                 <Header/>
                 <main>
                     <div className="container">
+
                         <Route path={"/authors"} exact render={() =>
                             <Authors authors={this.state.authors}/>}/>
                         <Route path={"/shopping-cart"} exact render={() =>
@@ -45,7 +49,8 @@ class App extends Component {
                         <Route path={"/books"} exact render={() =>
                             <Books books={this.state.books}
                                       onDelete={this.deleteBook}
-                                      onEdit={this.getBook}/>}/>
+                                      onEdit={this.getBook}/>}
+                               selectedYear={this.state.selectedYear}/>
                         {/*<Route path={"/login"} exact render={() => <Login onLogin={this.fetchData}/>}/>*/}
                         <Redirect to={"/books"}/>
                     </div>
@@ -65,7 +70,8 @@ class App extends Component {
     }
 
     loadBooks = () => {
-        EShopService.fetchBooks()
+        const year=this.state.selectedYear
+        EShopService.fetchBooks(year)
             .then((data) => {
                 this.setState({
                     books: data.data
