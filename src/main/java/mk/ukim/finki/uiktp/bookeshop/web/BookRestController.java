@@ -39,11 +39,6 @@ public class BookRestController {
         return this.bookService.findBooksByGenre(genre);
     }
 
-    @GetMapping("/year/{year}")
-    @PreAuthorize("isAuthenticated()")
-    public List<Book> findBooksByPublicationYear(@PathVariable String year) {
-        return this.bookService.findBooksByPublicationYear(year);
-    }
     @GetMapping("/author/{authorId}")
     @PreAuthorize("isAuthenticated()")
     public List<Book> findBooksByAuthor(@PathVariable Long authorId) {

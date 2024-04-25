@@ -49,16 +49,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(String name, String surname, String email, String address, String phoneNumber, Role role, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-        this.password = password;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(role);

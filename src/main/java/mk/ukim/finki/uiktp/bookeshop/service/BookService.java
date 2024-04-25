@@ -13,7 +13,6 @@
         Optional<Book> findBookByISBN(String isbn);
 
         List<Book> findBooksByGenre(Genre genre);
-        List<Book> findBooksByPublicationYear(String year);
 
         List<Book> findBooksByAuthor(Long authorId);
 

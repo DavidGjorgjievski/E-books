@@ -5,8 +5,6 @@ import mk.ukim.finki.uiktp.bookeshop.model.enumeration.Role;
 import mk.ukim.finki.uiktp.bookeshop.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.uiktp.bookeshop.repository.UserRepository;
 import mk.ukim.finki.uiktp.bookeshop.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +14,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    @Autowired
-    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder) {
-
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder=passwordEncoder;
     }
 
     @Override
@@ -38,8 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> create(String username, String name, String surname, String email, String address, String phoneNumber, String roleString, String password) {
         Role role = Role.valueOf(roleString);
-        String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(username,name,surname,email,address,phoneNumber,role,encodedPassword);
+        User user = new User(username,name,surname,email,address,phoneNumber,role,password);
         return Optional.of(this.userRepository.save(user));
     }
 
@@ -61,19 +54,16 @@ public class UserServiceImpl implements UserService {
 //    public void delete(String username) {
 //        userRepository.deleteByUsername(username);
 //    }
+@Override
+public Optional<User> delete(String username) {
+    Optional<User> user = userRepository.findByUsername(username);
 
 
-    @Override
-    public Optional<User> delete(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-
-
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-            return user;
-        } else {
-            return Optional.empty();
-        }
+    if (user.isPresent()) {
+        userRepository.delete(user.get());
+        return user;
+    } else {
+        return Optional.empty();
     }
-
+}
 }
