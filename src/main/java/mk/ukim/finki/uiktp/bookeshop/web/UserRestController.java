@@ -1,12 +1,16 @@
 package mk.ukim.finki.uiktp.bookeshop.web;
 
+import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.uiktp.bookeshop.model.User;
+import mk.ukim.finki.uiktp.bookeshop.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.uiktp.bookeshop.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -31,8 +35,8 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/register")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> create(@RequestParam String username,
                                        @RequestParam String name,
                                        @RequestParam String surname,
@@ -68,4 +72,5 @@ public class UserRestController {
             return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
     }
+
 }

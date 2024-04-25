@@ -38,12 +38,12 @@ const EShopService = {
     getBook: (id) => {
         return axios.get(`/books/${id}`);
     },
-    // login: (username, password) => {
-    //     return axios.post("/login", {
-    //         "username": username,
-    //         "password": password
-    //     });
-    // },
+    login: (username, password) => {
+        return axios.post("/login", {
+            "username": username,
+            "password": password
+        });
+    }
 }
 
 export default EShopService;

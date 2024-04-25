@@ -15,5 +15,6 @@ public interface UserService {
 
     Optional<User> update(String username, String name, String surname, String email, String address, String phoneNumber, String role);
 
-    void delete(String username);
+//    void delete(String username);
+    Optional<User> delete(String username);
 }
