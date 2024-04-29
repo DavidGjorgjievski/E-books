@@ -1,6 +1,7 @@
 package mk.ukim.finki.uiktp.bookeshop.web;
 
 import mk.ukim.finki.uiktp.bookeshop.model.Author;
+import mk.ukim.finki.uiktp.bookeshop.model.dto.AuthorDto;
 import mk.ukim.finki.uiktp.bookeshop.service.AuthorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,10 +35,8 @@ public class AuthorRestController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Author> create(@RequestParam String name,
-                                         @RequestParam String surname,
-                                         @RequestParam String birthYear) {
-        return this.authorService.create(name, surname, birthYear)
+    public ResponseEntity<Author> create(@RequestBody AuthorDto authorDto) {
+        return this.authorService.create(authorDto)
                 .map(author -> ResponseEntity.ok().body(author))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
@@ -45,10 +44,8 @@ public class AuthorRestController {
     @PutMapping("/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Author> update(@PathVariable Long id,
-                                         @RequestParam String name,
-                                         @RequestParam String surname,
-                                         @RequestParam String birthYear) {
-        return this.authorService.update(id, name, surname, birthYear)
+                                         @RequestBody AuthorDto authorDto) {
+        return this.authorService.update(id, authorDto)
                 .map(author -> ResponseEntity.ok().body(author))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }

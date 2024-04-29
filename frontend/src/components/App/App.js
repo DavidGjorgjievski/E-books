@@ -47,7 +47,7 @@ class App extends Component {
                                       onDelete={this.deleteBook}
                                       onEdit={this.getBook}/>}/>
                         {/*<Route path={"/login"} exact render={() => <Login onLogin={this.fetchData}/>}/>*/}
-                        <Redirect to={"/books"}/>
+                        {/*<Redirect to={"/books"}/>*/}
                     </div>
                 </main>
             </Router>

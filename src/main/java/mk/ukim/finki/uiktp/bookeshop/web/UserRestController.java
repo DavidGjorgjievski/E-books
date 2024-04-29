@@ -1,6 +1,7 @@
 package mk.ukim.finki.uiktp.bookeshop.web;
 
 import mk.ukim.finki.uiktp.bookeshop.model.User;
+import mk.ukim.finki.uiktp.bookeshop.model.dto.UserDto;
 import mk.ukim.finki.uiktp.bookeshop.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,15 +34,8 @@ public class UserRestController {
 
     @PostMapping("/add")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> create(@RequestParam String username,
-                                       @RequestParam String name,
-                                       @RequestParam String surname,
-                                       @RequestParam String email,
-                                       @RequestParam String address,
-                                       @RequestParam String phoneNumber,
-                                       @RequestParam String roleString,
-                                       @RequestParam String password) {
-        return this.userService.create(username, name, surname, email, address, phoneNumber, roleString, password)
+    public ResponseEntity<User> create(@RequestBody UserDto userDto) {
+        return this.userService.create(userDto)
                 .map(user -> ResponseEntity.ok().body(user))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
@@ -49,13 +43,8 @@ public class UserRestController {
     @PutMapping("/edit/{username}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> update(@PathVariable String username,
-                                       @RequestParam String name,
-                                       @RequestParam String surname,
-                                       @RequestParam String email,
-                                       @RequestParam String address,
-                                       @RequestParam String phoneNumber,
-                                       @RequestParam String roleString) {
-        return this.userService.update(username, name, surname, email, address, phoneNumber, roleString)
+                                       @RequestBody UserDto userDto) {
+        return this.userService.update(username, userDto)
                 .map(user -> ResponseEntity.ok().body(user))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }

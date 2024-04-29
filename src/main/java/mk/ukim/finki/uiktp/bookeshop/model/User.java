@@ -1,15 +1,23 @@
 package mk.ukim.finki.uiktp.bookeshop.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mk.ukim.finki.uiktp.bookeshop.model.enumeration.Role;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -34,11 +42,9 @@ public class User implements UserDetails {
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
 
-    public User(){
 
-    }
 
-    public User(String username, String name, String surname, String email, String address, String phoneNumber, Role role, String password) {
+    public User(String username, String name, String surname, String email, String address, String phoneNumber, Role role, String pass) {
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -46,12 +52,17 @@ public class User implements UserDetails {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
-        this.password = password;
+        this.password = pass;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(role);
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

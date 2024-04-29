@@ -1,6 +1,7 @@
 package mk.ukim.finki.uiktp.bookeshop.web;
 
 import mk.ukim.finki.uiktp.bookeshop.model.Book;
+import mk.ukim.finki.uiktp.bookeshop.model.dto.BookDto;
 import mk.ukim.finki.uiktp.bookeshop.model.enumeration.Genre;
 import mk.ukim.finki.uiktp.bookeshop.service.BookService;
 import org.springframework.http.ResponseEntity;
@@ -47,15 +48,8 @@ public class BookRestController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Book> create(@RequestParam String isbn,
-                                       @RequestParam String title,
-                                       @RequestParam String publicationHouse,
-                                       @RequestParam String publicationYear,
-                                       @RequestParam Genre genre,
-                                       @RequestParam String price,
-                                       @RequestParam byte[] imageData,
-                                       @RequestParam List<Long> authorIds) {
-        return this.bookService.create(isbn, title, publicationHouse, publicationYear, genre, price, imageData, authorIds)
+    public ResponseEntity<Book> create(@RequestBody BookDto bookDto) {
+        return this.bookService.create(bookDto)
                 .map(book -> ResponseEntity.ok().body(book))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
@@ -63,14 +57,8 @@ public class BookRestController {
     @PutMapping("/edit/{isbn}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> update(@PathVariable String isbn,
-                                       @RequestParam String title,
-                                       @RequestParam String publicationHouse,
-                                       @RequestParam String publicationYear,
-                                       @RequestParam Genre genre,
-                                       @RequestParam String price,
-                                       @RequestParam byte[] imageData,
-                                       @RequestParam List<Long> authorIds) {
-        return this.bookService.update(isbn, title, publicationHouse, publicationYear, genre, price, imageData, authorIds)
+                                       @RequestBody BookDto bookDto) {
+        return this.bookService.update(isbn, bookDto)
                 .map(book -> ResponseEntity.ok().body(book))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
