@@ -29,7 +29,7 @@ public class AuthenticationService {
                 .address(request.getAddress())
                 .phoneNumber(request.getPhoneNumber())
                 .password(encoded)
-                .role(request.getRoleEnum())
+                .role(Role.ROLE_USER)
                 .isEnabled(true)
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
