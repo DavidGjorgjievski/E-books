@@ -14,7 +14,7 @@
     <name>book-eshop</name>
     <description>book-eshop</description>
     <properties>
-        <java.version>21.0.2</java.version>
+        <java.version>21</java.version>
     </properties>
     <dependencies>
         <dependency>
